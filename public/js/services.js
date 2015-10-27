@@ -4,15 +4,16 @@
 
 var wemoDashServices = angular.module('wemoDashServices', ['ngResource']);
 
-/*
-webDashServices.factory('Devices', ['$resource',
+
+wemoDashServices.factory('Devices', ['$resource',
   function($resource){
     return $resource('/v1/getDevices', {}, {
       query: {method:'GET', params:{}, isArray:true}
     });
   }]);
-*/
-  
+
+
+/*  
 wemoDashServices.factory ('Devices', ['$resource', 
 	function ($resource) {
 		var fac = {};
@@ -29,3 +30,5 @@ wemoDashServices.factory ('Devices', ['$resource',
     	return fac;
     }
 ]);
+
+*/

@@ -2,6 +2,7 @@
   wemo-services.js - background services for wemo-dash
   
 */
+var DISCOVERY_DELAY = 10000; //ms
 
 var express = require('express');
 var router = express.Router();
@@ -9,6 +10,8 @@ var Wemo = require('wemo-client');
 var wemo = new Wemo();
 
 var devices = [];
+var clients = [];
+var status = [];
 
 //-------------------------------------------------------------------
 
@@ -20,26 +23,65 @@ module.exports.init = init;
 
 //-------------------------------------------------------------------
 
-function start () {
+function getDeviceIndex (sn) {
+	var i;
+	for (i=0; i<devices.length; i++) {
+		if (devices[i].serialNumber == sn) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+//-------------------------------------------------------------------
+
+function addNewDevice (deviceInfo) {
+	console.log('New Wemo Device Found: %j', deviceInfo.friendlyName);
+
+	var client = wemo.client (deviceInfo);
+	clients.push (client);
+	devices.push (deviceInfo);
+	var newstat = {
+			'name'	: deviceInfo.friendlyName,
+			'sn'	: deviceInfo.serialNumber,
+			'host'	: deviceInfo.host,
+			'port'	: deviceInfo.port,
+			'binaryState' : deviceInfo.binaryState
+		};
+	status.push (newstat);
+
+	// Handle BinaryState events
+	client.on('binaryState', function(value) {
+		var device = deviceInfo;
+		var ix = getDeviceIndex (device.serialNumber);
+		if (ix >=0) {
+			var val = status[ix].binaryState;
+			if (val != value) {
+				console.log(device.friendlyName + ': Binary State changed to: %s', value);
+				status[ix].binaryState = value;
+			}
+		}
+	});		
+
+}
+
+//-------------------------------------------------------------------
+
+function doDiscover () {
+//	console.log ("discovering...");
 	wemo.discover(function(deviceInfo) {
-		var ix = deviceInfo.friendlyName;
-		console.log('Wemo Device Found: %j', ix);
-
-		devices.push (deviceInfo);
-		
-		// Get the client for the found device
-		var client = wemo.client(deviceInfo);
-
-		// Handle BinaryState events
-		client.on('binaryState', function(value) {
-			var dev = deviceInfo;
-	
-			console.log(dev.friendlyName + ': Binary State changed to: %s', value);
-	  	});
-
-		// Turn the switch on
-		//  client.setBinaryState(1);
+		var sn = deviceInfo.serialNumber;
+		if (getDeviceIndex (sn) < 0) {
+			addNewDevice (deviceInfo);
+		}
 	});
+}
+
+//-------------------------------------------------------------------
+
+function start () {
+	doDiscover ();
+	setInterval (doDiscover, DISCOVERY_DELAY);
 }
 
 module.exports.start = start;
@@ -55,6 +97,8 @@ module.exports.stop = stop;
 
 function resetDeviceList () {
 	devices = [];
+	clients = [];
+	status = [];
 }
 
 module.exports.resetDeviceList = resetDeviceList;
@@ -62,8 +106,8 @@ module.exports.resetDeviceList = resetDeviceList;
 //-------------------------------------------------------------------
 
 function getDeviceList () {
-console.log ('DEVICES: ' + JSON.stringify (devices));
-	return devices;
+console.log ('DEVICES: ' + JSON.stringify (status));
+	return status;
 }
 
 module.exports.getDeviceList = getDeviceList;
@@ -72,12 +116,14 @@ module.exports.getDeviceList = getDeviceList;
 //-------------------------------------------------------------------
 
 function refreshDeviceList () {
-console.log ('REFRESH DEVICES: ' + JSON.stringify (devices));
 	resetDeviceList ();
+	start();
 	
-	return devices;
+console.log ('REFRESH DEVICES: ' + JSON.stringify (status));
+	
+	return {};
 }
 
-module.exports.getDeviceList = getDeviceList;
+module.exports.refreshDeviceList = refreshDeviceList;
 
 
