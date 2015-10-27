@@ -1,0 +1,10 @@
+.device-button {
+	width: 100%;
+}
+
+.indicator {
+	vertical-align: middle;
+	display: inline-block;
+	float: left;
+	font-size: 2.0em;
+}

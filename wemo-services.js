@@ -143,5 +143,22 @@ function setDevice (req) {
 
 module.exports.setDevice = setDevice;
 
+//-------------------------------------------------------------------
+
+function qSetDevice (req) {
+	console.log ('QSETDEVICE: ' + JSON.stringify (req));
+	var ix = getDeviceIndex (req.sn);
+	if (ix >= 0) {
+		console.log ("setting " + ix);
+		clients[ix].setBinaryState(req.val);
+	}
+	else {
+		console.log ("device not found");
+	}
+//	return status;
+}
+
+module.exports.qSetDevice = qSetDevice;
+
 
 

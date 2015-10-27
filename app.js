@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var getdevices = require ('./routes/getdevices');
 var setdevice = require ('./routes/setdevice');
+var qsetdevice = require ('./routes/qsetdevice');
 var refreshdevices = require ('./routes/refreshdevices');
 
 var app = express();
@@ -31,6 +32,7 @@ app.use('/users', users);
 
 app.use ('/v1/getdevices', getdevices);
 app.use ('/v1/setdevice', setdevice);
+app.use ('/v1/qsetdevice', qsetdevice);
 app.use ('/v1/refreshdevices', refreshdevices);
 
 

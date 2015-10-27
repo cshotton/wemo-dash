@@ -1,12 +1,21 @@
 <div class="row">
 	<div class="col-xs-10" ng-show="errFlag">Communications error!</div>
 </div>
-<div class="row">
-	<div class="col-xs-10" ng-repeat="d in devices">
-		<span class="btn btn-default btn-lg" ng-click="toggleValue (d)">
-			<i class="fa fa-toggle-on" ng-show=" d.binaryState == '1' "></i>
-			<i class="fa fa-toggle-off" ng-hide=" d.binaryState == '1' "></i>
+<div class="row" ng-repeat="d in devices" ng-show="haveDevices">
+	<div class="col-xs-1 indicator">
+		<span ng-click="copyToClipboard (d)">
+			<i class="fa fa-toggle-on fa-lg" ng-show=" d.binaryState == '1' "></i>
+			<i class="fa fa-toggle-off fa-lg" ng-hide=" d.binaryState == '1' "></i>
+		</span>
+	</div>
+	<div class="col-xs-10 col-xs-offset-1 col-md-6">
+		<span class="btn btn-default btn-lg device-button" ng-click="toggleValue (d)">
 			{{ d.name }} 
 		</span>
+	</div>
+</div>
+<div class="row" ng-hide="haveDevices">
+	<div class="col-md-12">
+		No devices were discovered.
 	</div>
 </div>
