@@ -8,7 +8,7 @@ var logger = require ('../services/logger');
 var MODULE_NAME = "getdevices";
 
 router.get ('/', function (req, res) {
-	logger.log (MODULE_NAME, 0, ":");
+//	logger.log (MODULE_NAME, 0, ":");
 	res.send (ws.getDeviceList());
 });
 

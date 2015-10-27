@@ -13,7 +13,7 @@ wemoDash.config(['$routeProvider',
     $routeProvider.
       when('/dash', {
         templateUrl: 'partials/dash.html',
-        controller: 'DeviceListCtrl'
+        controller: 'DeviceListCtrl2'
       }).
       otherwise({
         redirectTo: '/dash'

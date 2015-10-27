@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var getdevices = require ('./routes/getdevices');
+var setdevice = require ('./routes/setdevice');
 var refreshdevices = require ('./routes/refreshdevices');
 
 var app = express();
@@ -29,6 +30,7 @@ app.use('/', routes);
 app.use('/users', users);
 
 app.use ('/v1/getdevices', getdevices);
+app.use ('/v1/setdevice', setdevice);
 app.use ('/v1/refreshdevices', refreshdevices);
 
 

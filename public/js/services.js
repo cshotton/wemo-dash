@@ -12,6 +12,13 @@ wemoDashServices.factory('Devices', ['$resource',
     });
   }]);
 
+wemoDashServices.factory('Device', ['$resource',
+  function($resource){
+    return $resource('/v1/setDevice', {}, {
+      query: {method:'GET', params:{}, isArray:true}
+    });
+  }]);
+
 
 /*  
 wemoDashServices.factory ('Devices', ['$resource', 

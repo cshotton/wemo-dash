@@ -106,7 +106,7 @@ module.exports.resetDeviceList = resetDeviceList;
 //-------------------------------------------------------------------
 
 function getDeviceList () {
-console.log ('DEVICES: ' + JSON.stringify (status));
+//console.log ('DEVICES: ' + JSON.stringify (status));
 	return status;
 }
 
@@ -125,5 +125,23 @@ console.log ('REFRESH DEVICES: ' + JSON.stringify (status));
 }
 
 module.exports.refreshDeviceList = refreshDeviceList;
+
+//-------------------------------------------------------------------
+
+function setDevice (req) {
+	console.log ('SETDEVICE: ' + JSON.stringify (req));
+	var ix = getDeviceIndex (req.sn);
+	if (ix >= 0) {
+		console.log ("setting " + ix);
+		clients[ix].setBinaryState(req.val);
+	}
+	else {
+		console.log ("device not found");
+	}
+//	return status;
+}
+
+module.exports.setDevice = setDevice;
+
 
 

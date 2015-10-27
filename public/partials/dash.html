@@ -1,7 +1,12 @@
-dash.html - {{ orderProp }}
-
-<ul>
-<li ng-repeat="d in devices">
-	{{ d.name }} : {{ d.binaryState }}
-</li>
-</ul>
+<div class="row">
+	<div class="col-xs-10" ng-show="errFlag">Communications error!</div>
+</div>
+<div class="row">
+	<div class="col-xs-10" ng-repeat="d in devices">
+		<span class="btn btn-default btn-lg" ng-click="toggleValue (d)">
+			<i class="fa fa-toggle-on" ng-show=" d.binaryState == '1' "></i>
+			<i class="fa fa-toggle-off" ng-hide=" d.binaryState == '1' "></i>
+			{{ d.name }} 
+		</span>
+	</div>
+</div>
