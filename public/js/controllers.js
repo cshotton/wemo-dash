@@ -4,6 +4,7 @@
 
 var wemoDashControllers = angular.module('wemoDashControllers', []);
 
+/*
 wemoDashControllers.controller('DeviceListCtrl', ['$scope', 'Devices',
   function($scope, Devices) {
     $scope.devices = Devices.query();
@@ -13,6 +14,7 @@ wemoDashControllers.controller('DeviceListCtrl', ['$scope', 'Devices',
     		dev.binaryState = newval;
     	};
   }]);
+*/
 
 wemoDashControllers.controller('DeviceListCtrl2', ['$scope', '$http', '$interval',
   function($scope, $http, $interval) {
@@ -52,7 +54,8 @@ wemoDashControllers.controller('DeviceListCtrl2', ['$scope', '$http', '$interval
     }
     
     function loadDevices () {
-    	$http.get ('/v1/getdevices').then (function (data) {
+    	$http.get ('/v1/getdevices').then (
+    		function (data) {
 	   			//console.log ("got devices: " + JSON.stringify (data));
 	   			errmsg ("", false);
     			$scope.devices = data.data;
@@ -63,3 +66,8 @@ wemoDashControllers.controller('DeviceListCtrl2', ['$scope', '$http', '$interval
     		});
     }
   }]);
+
+wemoDashControllers.controller('HelpCtrl', ['$scope',
+  function($scope) {
+  }]);
+  

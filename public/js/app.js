@@ -9,13 +9,17 @@ var wemoDash = angular.module('wemo-dash', [
 ]);
 
 wemoDash.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/dash', {
-        templateUrl: 'partials/dash.html',
-        controller: 'DeviceListCtrl2'
-      }).
-      otherwise({
-        redirectTo: '/dash'
-      });
-  }]);
+	function($routeProvider) {
+		$routeProvider.
+			when('/dash', {
+				templateUrl: 'partials/dash.html',
+				controller: 'DeviceListCtrl2'
+			}).
+      		when ('/help', {
+      			templateUrl: 'partials/help.html',
+      			controller: 'HelpCtrl'
+      		}).
+			otherwise({
+				redirectTo: '/dash'
+			});
+	}]);

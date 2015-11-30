@@ -3,7 +3,6 @@ MAINTAINER chuck <chuck@shotton.com>
 
 # docker build -t wemo-dash .
 # docker run --name wemo-dash --net=host -e PORT=3100 --restart="always" -d wemo-dash
-# docker run --name wemo-dash -p 3100:3000 -d wemo-dash
 
 RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get update
